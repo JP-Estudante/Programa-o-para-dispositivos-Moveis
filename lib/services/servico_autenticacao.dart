@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
-import 'package:meu_app/repositorios/repositorio_login.dart';
+import 'package:my_app/repository/repositorio_login.dart';
 import 'dart:convert';
-import '../modelos/usuario_login.dart';
+import '../models/usuario_login.dart';
 
 class ServicoAutenticacao {
 
