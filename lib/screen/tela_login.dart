@@ -19,30 +19,32 @@ class _TelaLoginState extends State<TelaLogin> {
   final servicoAutenticacao = ServicoAutenticacao();
 
   Future<void> registraLogin() async {
-    setState(() {
-      fazendoLogin = true;
-    });
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Processando Login')));
-
-    try {
-      final UsuarioLogin = await servicoAutenticacao.login(
-          usuarioController.text, senhaController.text);
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-      if (UsuarioLogin != null) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => TelaPrincipal()));
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.toString()),
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-      ));
-    } finally {
+    if (formKey.currentState!.validate()) {
       setState(() {
-        fazendoLogin = false;
+        fazendoLogin = true;
       });
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Processando Login')));
+
+      try {
+        final UsuarioLogin = await servicoAutenticacao.login(
+            usuarioController.text, senhaController.text);
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+        if (UsuarioLogin != null) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => TelaPrincipal()));
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Color.fromARGB(255, 255, 0, 0),
+        ));
+      } finally {
+        setState(() {
+          fazendoLogin = false;
+        });
+      }
     }
   }
 
@@ -63,6 +65,12 @@ class _TelaLoginState extends State<TelaLogin> {
                 padding: const EdgeInsets.all(35),
                 child: TextFormField(
                   controller: usuarioController,
+                  validator: (valor) {
+                    if (valor == null || valor.isEmpty) {
+                      return "Preencha o ID do Usuário";
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                       labelText: 'Usuario',
                       prefixIcon: Icon(Icons.pan_tool_sharp),
@@ -78,6 +86,12 @@ class _TelaLoginState extends State<TelaLogin> {
                 padding: const EdgeInsets.all(16.0),
                 child: TextFormField(
                   controller: senhaController,
+                  validator: (valor) {
+                    if (valor == null || valor.isEmpty) {
+                      return "Preencha a senha do Usuário";
+                    }
+                    return null;
+                  },
                   obscureText: true,
                   decoration: InputDecoration(
                       labelText: "Senha",

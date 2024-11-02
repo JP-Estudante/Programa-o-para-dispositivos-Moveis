@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/screen/lista_produtos.dart';
 import '../widgets/barra_inferior.dart';
 import '../widgets/menu_lateral.dart';
 import 'minha_conta.dart';
@@ -14,7 +15,7 @@ class TelaPrincipal extends StatefulWidget {
 class _TelaPrincipalState extends State<TelaPrincipal> {
   int indiceAtual = 0;
 
-  List<Widget> telas = [const MinhaConta(), const Pedidos(), const Notificacoes()];
+  List<Widget> telas = [const MinhaConta(), TelaListaProdutos(), const Notificacoes()];
 
   @override
   Widget build(BuildContext context) {
