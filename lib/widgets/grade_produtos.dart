@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/models/produto.dart';
+import '../screen/produto_detalhes.dart';
 
 class GradeProdutos extends StatelessWidget {
   final List<Produto> produtos;
@@ -18,22 +19,28 @@ class GradeProdutos extends StatelessWidget {
       itemBuilder: (context, index) {
         final produto = produtos[index];
         return GestureDetector(
-          //onTap: (){
-            //Navigator.push(
-              //context,
-              //MaterialPageRoute(builder: (context) => TelaDetalheProduto(???)) // Continuar daqui como tarefa de casa
-            //)
-          //},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutoDetalhes(produto: produto),
+              ),
+            );
+          },
           child: Card(
             elevation: 15,
             child: Column(
               children: [
-                Expanded(child: Image(image: NetworkImage(produto.imagem))),
+                Expanded(
+                  child: produto.imagens.isNotEmpty
+                      ? Image.network(produto.imagens[0], fit: BoxFit.cover)
+                      : Icon(Icons.broken_image, size: 50),
+                ),
                 Text(produto.titulo),
-                Text("R\$" + produto.preco)
+                Text("R\$${produto.preco.toStringAsFixed(2)}"),
               ],
             ),
-            ),
+          ),
         );
       },
     );
